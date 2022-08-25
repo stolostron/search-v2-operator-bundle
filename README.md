@@ -1,1 +1,1 @@
-# search-v2-operator-bundle
+# Search Operator Bundle
