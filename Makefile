@@ -8,4 +8,4 @@ bundle-latest-image:
 
 .PHONY: e2e
 e2e:
-	echo "Running e2e test..."
+	echo "[TODO] Run e2e test here."
