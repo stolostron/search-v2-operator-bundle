@@ -190,6 +190,11 @@ if [[ " $@ " =~ " --silent " || " $@ " =~ " -s " ]]; then
   # Get the latest manifest file to capture the latest builds.
   PIPELINE_MANIFEST=$(curl GET https://raw.githubusercontent.com/$ORG/$PIPELINE_REPO/$RELEASE_BRANCH/manifest.json -H "Authorization: token $GITHUB_TOKEN")
   log_color "purple" "\nFetching image-tags from pipeline manifest." "\n"
+
+  if [[ ! $PIPELINE_MANIFEST =~ "image-tag" ]]; then
+    log_color "red" "[ERROR] PIPELINE_MANIFEST does not contain \"image-tag\". Exiting the script."
+    exit 1
+  fi
 fi
 
 for COMPONENT in ${SEARCH_COMPONENTS[@]}; do
@@ -230,15 +235,5 @@ done
 
 echo "Checking image within csv after update.."
 get_images_from_csv
-
-# TODO: Create PR for latest image update.
-if [[ `git status --porcelain | grep $OPERATOR_CSV_FILEPATH` ]]; then
-  update_doc_entry
-
-  # git add $OPERATOR_CSV_FILEPATH
-  # git add $README_FILEPATH
-
-#   git commit -sm "[release-2.7] Updated bundle image version"
-fi
 
 exit 0
