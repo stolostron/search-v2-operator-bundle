@@ -6,6 +6,6 @@
 bundle-latest-image:
 	bash ./scripts/bundle-image-pickup.sh -s
 
-.PHONY: e2e
-e2e:
+.PHONY: test-e2e
+test-e2e:
 	echo "[TODO] Run e2e test here."
