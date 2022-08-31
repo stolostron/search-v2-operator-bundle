@@ -118,7 +118,7 @@ update_doc_entry () {
       "| [search-v2-api](https://github.com/stolostron/search-v2-api)           | ${API_IMAGE}       |\n" \
       "| [search-v2-operator](https://github.com/stolostron/search-v2-operator) | ${OPERATOR_IMAGE}  |" >> $README_FILEPATH
 
-  sed -i'.bak' 's/^[ \t]*//'  $README_FILEPATH
+  sed -i'' 's/^[ \t]*//'  $README_FILEPATH
 }
 
 update_images_csv () {
@@ -235,5 +235,10 @@ done
 
 echo "Checking image within csv after update.."
 get_images_from_csv
+
+# Check to see if there are any changes made to the search-v2-operator csv file.
+if [[ `git status --porcelain | grep $OPERATOR_CSV_FILEPATH` ]]; then
+  update_doc_entry
+fi
 
 exit 0
