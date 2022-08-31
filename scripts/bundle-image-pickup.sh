@@ -231,14 +231,9 @@ done
 echo "Checking image within csv after update.."
 get_images_from_csv
 
-# TODO: Create PR for latest image update.
+# Check to see if there are any changes made to the search-v2-operator csv file.
 if [[ `git status --porcelain | grep $OPERATOR_CSV_FILEPATH` ]]; then
   update_doc_entry
-
-  # git add $OPERATOR_CSV_FILEPATH
-  # git add $README_FILEPATH
-
-#   git commit -sm "[release-2.7] Updated bundle image version"
 fi
 
 exit 0
