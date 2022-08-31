@@ -2,6 +2,10 @@
 
 -include /opt/build-harness/Makefile.prow
 
-.PHONY: build
-build: ## Build the docker image.
-	docker build -f Dockerfile . -t search-operator-bundle
+.PHONY: bundle-latest-image
+bundle-latest-image:
+	bash ./scripts/bundle-image-pickup.sh -s
+
+.PHONY: e2e
+e2e:
+	echo "[TODO] Run e2e test here."
