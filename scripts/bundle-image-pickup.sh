@@ -128,24 +128,28 @@ update_images_csv () {
 
   log_color purple "Preparing to update component: ${COMPONENT} => ${NEW_IMAGE}" "\n"
 
-  # TODO: Replace yq path with $OPERATOR_ENV_PATH. (Note: Adding the env variable seems to cause yq to return no results)
   if [[ $COMPONENT =~ .*"postgresql-13".* ]]; then
-    yq -i e '.spec.install.spec.deployments[0].spec.template.spec.containers[1].env[1].value = "'${NEW_IMAGE}'"' $OPERATOR_CSV_FILEPATH
+    yq -i e "${OPERATOR_CONTAINER_PATH}.env[1].value = \"${NEW_IMAGE}\"" $OPERATOR_CSV_FILEPATH
   
   elif [[ $COMPONENT =~ .*"search-indexer".* ]]; then
-    yq -i e '.spec.install.spec.deployments[0].spec.template.spec.containers[1].env[1].value = "'${NEW_IMAGE}'"' $OPERATOR_CSV_FILEPATH
+    yq -i e "${OPERATOR_CONTAINER_PATH}.env[1].value = \"${NEW_IMAGE}\"" $OPERATOR_CSV_FILEPATH
 
   elif [[ $COMPONENT =~ .*"search-collector".* ]]; then
-    yq -i e '.spec.install.spec.deployments[0].spec.template.spec.containers[1].env[2].value = "'${NEW_IMAGE}'"' $OPERATOR_CSV_FILEPATH
+    yq -i e "${OPERATOR_CONTAINER_PATH}.env[2].value = \"${NEW_IMAGE}\"" $OPERATOR_CSV_FILEPATH
   
   elif [[ $COMPONENT =~ .*"search-v2-api".* ]]; then
-    yq -i e '.spec.install.spec.deployments[0].spec.template.spec.containers[1].env[3].value = "'${NEW_IMAGE}'"' $OPERATOR_CSV_FILEPATH
+    yq -i e "${OPERATOR_CONTAINER_PATH}.env[3].value = \"${NEW_IMAGE}\"" $OPERATOR_CSV_FILEPATH
 
-  # TODO: Replace yq path with $OPERATOR_IMAGE_PATH. (Note: Adding the env variable seems to cause yq to return no results)
   elif [[ $COMPONENT =~ .*"search-v2-operator".* && $IGNORE_POSTGRES_IMAGE_UPDATE == true ]]; then
-    yq -i e '.spec.install.spec.deployments[0].spec.template.spec.containers[1].image = "'${NEW_IMAGE}'"' $OPERATOR_CSV_FILEPATH
+    yq -i e "${OPERATOR_IMAGE_PATH} = \"${NEW_IMAGE}\"" $OPERATOR_CSV_FILEPATH
   fi
 }
+
+# To run in silent mode the user's GITHUB_TOKEN will need to be exported. This is needed to fetch the pipeline manifest.json file from the stolostron org.
+if [[ " $@ " =~ " --silent " || " $@ " =~ " -s " && -z $GITHUB_TOKEN ]]; then
+  log_color "yellow" "\"GITHUB_TOKEN\" is not exported; (\"GITHUB_TOKEN\" is required to execute the script in silent mode)" 
+  exit 1
+fi
 
 # Fetch the current images from the csv file.
 get_images_from_csv
@@ -190,6 +194,12 @@ if [[ " $@ " =~ " --silent " || " $@ " =~ " -s " ]]; then
   # Get the latest manifest file to capture the latest builds.
   PIPELINE_MANIFEST=$(curl GET https://raw.githubusercontent.com/$ORG/$PIPELINE_REPO/$RELEASE_BRANCH/manifest.json -H "Authorization: token $GITHUB_TOKEN")
   log_color "purple" "\nFetching image-tags from pipeline manifest." "\n"
+
+  # Check to see if the pipeline manifest file contains the image-tag. If not, then there is an error or issue with the file.
+  if [[ ! $PIPELINE_MANIFEST =~ "image-tag" ]]; then
+    log_color "red" "[ERROR] PIPELINE_MANIFEST does not contain \"image-tag\". Exiting the script."
+    exit 1
+  fi
 fi
 
 for COMPONENT in ${SEARCH_COMPONENTS[@]}; do
@@ -206,11 +216,11 @@ for COMPONENT in ${SEARCH_COMPONENTS[@]}; do
 
     if [[ " $@ " =~ " --silent " || " $@ " =~ " -s " ]]; then
       # Fetch search component within the manifest file.
-      MANIFEST_JSON=$(echo $PIPELINE_MANIFEST | jq '.[] | select(."image-name" | match("'$COMPONENT'";"i"))')
+      MANIFEST_JSON=$(echo $PIPELINE_MANIFEST | jq ".[] | select(.\"image-name\" | match(\"$COMPONENT\";\"i\"))")
       echo -e "Manifest Tag: $MANIFEST_JSON\n"
 
       # Extract the image tag from the manifest.
-      TAG=$(echo $MANIFEST_JSON | jq -r '."image-tag"')  
+      TAG=$(echo $MANIFEST_JSON | jq -r ".\"image-tag\"")  
     else
       # Set the image tag to the default/choice image.
       TAG=$DEFAULT_SNAPSHOT
@@ -231,14 +241,9 @@ done
 echo "Checking image within csv after update.."
 get_images_from_csv
 
-# TODO: Create PR for latest image update.
+# Check to see if there are any changes made to the search-v2-operator csv file.
 if [[ `git status --porcelain | grep $OPERATOR_CSV_FILEPATH` ]]; then
   update_doc_entry
-
-  # git add $OPERATOR_CSV_FILEPATH
-  # git add $README_FILEPATH
-
-#   git commit -sm "[release-2.7] Updated bundle image version"
 fi
 
 exit 0
