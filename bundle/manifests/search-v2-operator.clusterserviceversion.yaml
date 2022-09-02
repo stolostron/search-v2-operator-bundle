@@ -233,7 +233,7 @@ spec:
                       - name: COLLECTOR_IMAGE
                         value: quay.io/stolostron/search-collector:2.7.0-de589fdba4effc06198db8250c1ae3118125d685
                       - name: API_IMAGE
-                        value: quay.io/stolostron/search-v2-api:2.7.0-260947980e11381931b7d193370baa3596beed7f
+                        value: quay.io/stolostron/search-v2-api:2.7.0-a434961368307d4fd3ed406ddcaffbfe1c7a88e7
                     readinessProbe:
                       httpGet:
                         path: /readyz
