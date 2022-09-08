@@ -105,3 +105,17 @@ Description to be added...
 | [search-indexer](https://github.com/stolostron/search-indexer)         | quay.io/stolostron/search-indexer:2.7.0-4c1b1f4f692d5f8be9fca699ea26573227250f39   |
 | [search-v2-api](https://github.com/stolostron/search-v2-api)           | quay.io/stolostron/search-v2-api:2.7.0-39d9479685fc8e28478b668e7650acd4ac79ee08       |
 | [search-v2-operator](https://github.com/stolostron/search-v2-operator) | quay.io/stolostron/search-v2-operator:2.7.0-78b8fed2b848aa05c7cba248b91138c67f6ce31c  |
+-e 
+### Date of Change: 09-08-2022
+
+---
+-e 
+#### Updated Build Version: Thu Sep  8 13:49:04 EDT 2022
+-e 
+| Image Name                                                             | Image Component  |
+|------------------------------------------------------------------------|------------------|
+| [postgresql-13](https://catalog.redhat.com/software/containers/rhel8/postgresql-13/5ffdbdef73a65398111b8362) | registry.redhat.io/rhel8/postgresql-13@sha256:d8ec037e60575b86320fdc162117600240ce53038fb8b9b7296ce525d2b8e605  |
+| [search-collector](https://github.com/stolostron/search-collector)     | quay.io/stolostron/search-collector:2.7.0-de589fdba4effc06198db8250c1ae3118125d685 |
+| [search-indexer](https://github.com/stolostron/search-indexer)         | quay.io/stolostron/search-indexer:2.7.0-4c1b1f4f692d5f8be9fca699ea26573227250f39   |
+| [search-v2-api](https://github.com/stolostron/search-v2-api)           | quay.io/stolostron/search-v2-api:2.7.0-759b3245abae6df9fc9a5acfbc3ce0c721cf165e       |
+| [search-v2-operator](https://github.com/stolostron/search-v2-operator) | quay.io/stolostron/search-v2-operator:2.7.0-2b51dd658e4c83a45f2974a57c09529ffb59a3b7  |

@@ -15,6 +15,11 @@ IMAGE_TAG_BASE ?= open-cluster-management.io/search-operator-bundle
 # You can use it as an arg. (E.g make bundle-build BUNDLE_IMG=<some-registry>/<project-name-bundle>:<tag>)
 BUNDLE_IMG ?= $(IMAGE_TAG_BASE):v$(VERSION)
 
+default::
+	make help
+help:
+	@grep -E '^[a-zA-Z_-]+:.*?## .*$$' $(MAKEFILE_LIST) | sort | awk 'BEGIN {FS = ":.*?## "}; {printf "\033[36m%-25s\033[0m %s\n", $$1, $$2}'
+
 .PHONY: bundle-build
 bundle-build: ## Build the bundle image.
 	docker build -f Dockerfile -t $(BUNDLE_IMG) .
@@ -22,3 +27,6 @@ bundle-build: ## Build the bundle image.
 .PHONY: bundle-push
 bundle-push: ## Push the bundle image.
 	$(MAKE) docker-push IMG=$(BUNDLE_IMG)
+
+update: ## Update images to latest versions.
+	sh ./scripts/bundle-image-pickup.sh -s
