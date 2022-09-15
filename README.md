@@ -72,7 +72,7 @@ Each environment variable is customizable and can be set by the user.
 
 | Name                          | Description                                                        | Default Value                                               |
 |-------------------------------|--------------------------------------------------------------------|-------------------------------------------------------------|
-| DEFAULT_IMG_REGISTRY          | Image registry from where the build image will be pulled from      | quay.io/$ORG                                                |
+| IMG_REGISTRY                  | Image registry from where the build image will be pulled from      | quay.io/$ORG                                                |
 | IGNORE_API_IMAGE_UPDATE       | Ignore search-v2-api image update                                  | false                                                       |
 | IGNORE_COLLECTOR_IMAGE_UPDATE | Ignore search-collector image update                               | false                                                       |
 | IGNORE_INDEXER_IMAGE_UPDATE   | Ignore search-indexer image update                                 | false                                                       |
@@ -84,13 +84,13 @@ Each environment variable is customizable and can be set by the user.
 | OPERATOR_IMAGE_PATH           | The container image path within the search-v2-operator.clusterserviceversion manifest file | OPERATOR_CONTAINER_PATH.image       |
 | ORG                           | The org from which the images will be pulled from and where the manifest file will be fetched from | stolostron                  |
 | PIPELINE_REPO                 | The repository that contains the image manifest file                     | pipeline                                              |
-| POSTGRES_IMG_REGISTRY         | The image registry for the postgresql component                          | $DEFAULT_IMG_REGISTRY                                 |
+| POSTGRES_IMG_REGISTRY         | The image registry for the postgresql component                          | $IMG_REGISTRY                                         |
 | README_FILEPATH               | The README filepath for where the updated status will be added           | README.md                                             |
 | RELEASE_BRANCH                | The release branch from which the pipeline manifest will be fetched from | 2.7-integration                                       |
-| SEARCH_API_IMG_REGISTRY       | The image registry for the search-v2-api component                       | $DEFAULT_IMG_REGISTRY                                 |
-| SEARCH_COLLECTOR_IMG_REGISTRY | The image registry for the search-collector component                    | $DEFAULT_IMG_REGISTRY                                 |
-| SEARCH_INDEXER_IMG_REGISTRY   | The image registry for the search-indexer component                      | $DEFAULT_IMG_REGISTRY                                 |
-| SEARCH_OPERATOR_IMG_REGISTRY  | The image registry for the search-v2-operator component                  | $DEFAULT_IMG_REGISTRY                                 |
+| SEARCH_API_IMG_REGISTRY       | The image registry for the search-v2-api component                       | $IMG_REGISTRY                                         |
+| SEARCH_COLLECTOR_IMG_REGISTRY | The image registry for the search-collector component                    | $IMG_REGISTRY                                         |
+| SEARCH_INDEXER_IMG_REGISTRY   | The image registry for the search-indexer component                      | $IMG_REGISTRY                                         |
+| SEARCH_OPERATOR_IMG_REGISTRY  | The image registry for the search-v2-operator component                  | $IMG_REGISTRY                                         |
 
 ## Links
 
