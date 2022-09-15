@@ -36,7 +36,7 @@ cat ./snapshot.ver
 The default tag version for the `Postgresql` component will be located within the `pg-snapshot.ver`. To verify that the file exist, run the following command:
 
 ```bash
-# 1-56
+# 1-78
 cat ./pg-snapshot.ver
 ```
 
