@@ -1,107 +1,102 @@
 # Search Operator Bundle
 
-This file contains the updated history of the bundle image versioning.
+Bundles the latest Odyssey (OCM Search v2) components.
 
 ## Image Pickup
 
-Description to be added...
+> Pre-requisites:
+>
+> - You will need a `GITHUB_TOKEN` that provides read access from the [stolostron/pipeline](https://github.com/stolostron/pipeline) (private) repository (required to fetch the latest image manifests).
+> - jq command - [link](https://formulae.brew.sh/formula/jq)
+> - yq command - [link](https://formulae.brew.sh/formula/yq)
+> - When running the update manually, you will need to ensure that the `snapshot.ver` and `pg-snapshot.ver` file exist within the `search-v2-operator-bundle` repository.
 
-### Date of Change: 08-23-2022
+When bundling the latest build, the following `Search` images will be targeted (unless ignored):
 
----
+- [search-collector](https://github.com/stolostron/search-collector)
+- [search-indexer](https://github.com/stolostron/search-indexer)
+- [search-v2-api](https://github.com/stolostron/search-v2-api)
+- [search-v2-operator](https://github.com/stolostron/search-v2-operator)
 
-#### Updated Build Version: Tue Aug 23 19:03:34 EDT 2022
+The following `Postgresql` image will be targeted (unless ignored):
 
-| Image Name                                                             | Image Component  |
-|------------------------------------------------------------------------|------------------|
-| [postgresql-13](https://catalog.redhat.com/software/containers/rhel8/postgresql-13/5ffdbdef73a65398111b8362) | registry.redhat.io/rhel8/postgresql-13:1-56  |
-| [search-collector](https://github.com/stolostron/search-collector)     | quay.io/stolostron/search-collector:2.7.0-5f707444e4187a6dc72edd891a2ff97ffc3e6ca8 |
-| [search-indexer](https://github.com/stolostron/search-indexer)         | quay.io/stolostron/search-indexer:2.7.0-4c1b1f4f692d5f8be9fca699ea26573227250f39   |
-| [search-v2-api](https://github.com/stolostron/search-v2-api)           | quay.io/stolostron/search-v2-api:2.7.0-0da7af171e5cc5c1b319cc9e7710d13db85734d1       |
-| [search-v2-operator](https://github.com/stolostron/search-v2-operator) | quay.io/stolostron/search-v2-operator:2.7.0-8220bc29e9b609b1f27a4a221962ebeb57dc25cf  |
+- [postgresql-13](https://catalog.redhat.com/software/containers/rhel8/postgresql-13/5ffdbdef73a65398111b8362)
 
-### Date of Change: 08-29-2022
+### Running the bundle update locally
 
----
+When executing the script, you will be prompted to select the `SNAPSHOT` tag for the `Search` and `Postgresql` images. By default, this project support the usage of the `snapshot.ver` and `pg-snapshot.ver` file.
 
-#### Updated Build Version: Mon Aug 29 19:31:31 EDT 2022 (Manual)
+The default tag version for the `Search` components will be located within the `snapshot.ver`. To verify that the file exist, run the following command:
 
-| Image Name                                                             | Image Component  |
-|------------------------------------------------------------------------|------------------|
-| [postgresql-13](https://catalog.redhat.com/software/containers/rhel8/postgresql-13/5ffdbdef73a65398111b8362) | registry.redhat.io/rhel8/postgresql-13:1-56  |
-| [search-collector](https://github.com/stolostron/search-collector)     | quay.io/stolostron/search-collector:2.6.0-SNAPSHOT-2022-08-08-20-23-21 |
-| [search-indexer](https://github.com/stolostron/search-indexer)         | quay.io/stolostron/search-indexer:2.6.0-SNAPSHOT-2022-08-08-20-23-21   |
-| [search-v2-api](https://github.com/stolostron/search-v2-api)           | quay.io/stolostron/search-v2-api:2.6.0-SNAPSHOT-2022-08-08-20-23-21       |
-| [search-v2-operator](https://github.com/stolostron/search-v2-operator) | quay.io/stolostron/search-v2-operator:2.6.0-SNAPSHOT-2022-08-08-20-23-21  |
+```bash
+# 2.7.0-SNAPSHOT-2022-09-15-08-33-34
+cat ./snapshot.ver
+```
 
-#### Updated Build Version: Mon Aug 29 19:32:01 EDT 2022 (Silent)
+The default tag version for the `Postgresql` component will be located within the `pg-snapshot.ver`. To verify that the file exist, run the following command:
 
-| Image Name                                                             | Image Component  |
-|------------------------------------------------------------------------|------------------|
-| [postgresql-13](https://catalog.redhat.com/software/containers/rhel8/postgresql-13/5ffdbdef73a65398111b8362) | registry.redhat.io/rhel8/postgresql-13:1-56  |
-| [search-collector](https://github.com/stolostron/search-collector)     | quay.io/stolostron/search-collector:2.7.0-de589fdba4effc06198db8250c1ae3118125d685 |
-| [search-indexer](https://github.com/stolostron/search-indexer)         | quay.io/stolostron/search-indexer:2.7.0-4c1b1f4f692d5f8be9fca699ea26573227250f39   |
-| [search-v2-api](https://github.com/stolostron/search-v2-api)           | quay.io/stolostron/search-v2-api:2.7.0-69590634c2de51ceec786af47ca5fb00f42a631a       |
-| [search-v2-operator](https://github.com/stolostron/search-v2-operator) | quay.io/stolostron/search-v2-operator:2.7.0-dc0fc8c59239b6a0a3f440b7752101523d87f597  |
+```bash
+# 1-78
+cat ./pg-snapshot.ver
+```
 
-### Date of Change: 09-01-2022
+To continue with the default tags that are set within the repository, simply press `enter` or `return`; otherwise, you can fetch the required `SNAPSHOT` tag to use from the [quay.io/stolostron](https://quay.io/organization/stolostron) registry.
 
----
+![Manual Update](docs/images/bundle-image-pickup-manual.gif)
 
-#### Updated Build Version: Thu Sep  1 16:13:08 EDT 2022
+**NOTE**: The default image tags that are being used within the `snapshot.ver` and `pg-snapshot.ver` will only be updated after running the script `manually`. If the user execute the script while silent mode is enabled, the `snapshot` files will not be updated with the latest image tags.
 
-| Image Name                                                             | Image Component  |
-|------------------------------------------------------------------------|------------------|
-| [postgresql-13](https://catalog.redhat.com/software/containers/rhel8/postgresql-13/5ffdbdef73a65398111b8362) | registry.redhat.io/rhel8/postgresql-13:1-56  |
-| [search-collector](https://github.com/stolostron/search-collector)     | quay.io/stolostron/search-collector: |
-| [search-indexer](https://github.com/stolostron/search-indexer)         | quay.io/stolostron/search-indexer:   |
-| [search-v2-api](https://github.com/stolostron/search-v2-api)           | quay.io/stolostron/search-v2-api:       |
-| [search-v2-operator](https://github.com/stolostron/search-v2-operator) | quay.io/stolostron/search-v2-operator:  |
+### Running the bundle update in silent mode
 
-#### Updated Build Version: Thu Sep  1 16:15:09 EDT 2022
+For automatic updates, the user can run the script in `silent` mode. When running the script within `silent` mode, the user will need to ensure that they have access to the pipeline repository, from which the latest images will be fetched from. The user will also need to export their github token as the following environment variable: `GITHUB_TOKEN`.
 
-| Image Name                                                             | Image Component  |
-|------------------------------------------------------------------------|------------------|
-| [postgresql-13](https://catalog.redhat.com/software/containers/rhel8/postgresql-13/5ffdbdef73a65398111b8362) | registry.redhat.io/rhel8/postgresql-13:1-56  |
-| [search-collector](https://github.com/stolostron/search-collector)     | quay.io/stolostron/search-collector: |
-| [search-indexer](https://github.com/stolostron/search-indexer)         | quay.io/stolostron/search-indexer:   |
-| [search-v2-api](https://github.com/stolostron/search-v2-api)           | quay.io/stolostron/search-v2-api:       |
-| [search-v2-operator](https://github.com/stolostron/search-v2-operator) | quay.io/stolostron/search-v2-operator:  |
+To run the script within silent mode, add the `--silent` or `-s` flag at the end of the command to ensure that the mode is enabled.
 
-### Date of Change: 09-02-2022
+```bash
+./scripts/bundle-image-pickup.sh --silent
 
----
+or 
 
-#### Updated Build Version: Fri Sep  2 07:55:48 EDT 2022
+./scripts/bundle-image-pickup.sh -s
+```
 
-| Image Name                                                             | Image Component  |
-|------------------------------------------------------------------------|------------------|
-| [postgresql-13](https://catalog.redhat.com/software/containers/rhel8/postgresql-13/5ffdbdef73a65398111b8362) | registry.redhat.io/rhel8/postgresql-13:1-56  |
-| [search-collector](https://github.com/stolostron/search-collector)     | quay.io/stolostron/search-collector:2.7.0-de589fdba4effc06198db8250c1ae3118125d685 |
-| [search-indexer](https://github.com/stolostron/search-indexer)         | quay.io/stolostron/search-indexer:2.7.0-4c1b1f4f692d5f8be9fca699ea26573227250f39   |
-| [search-v2-api](https://github.com/stolostron/search-v2-api)           | quay.io/stolostron/search-v2-api:2.7.0-260947980e11381931b7d193370baa3596beed7f       |
-| [search-v2-operator](https://github.com/stolostron/search-v2-operator) | quay.io/stolostron/search-v2-operator:2.7.0-93891c64aec26b9784eb8b5b35a9cf3a5b3acd1b  |
+![Automated Update](docs/images/bundle-image-pickup-silent.gif)
 
-#### Updated Build Version: Fri Sep  2 19:03:07 EDT 2022
+### TODO: Scheduling bundle update with Github actions workflow
 
-| Image Name                                                             | Image Component  |
-|------------------------------------------------------------------------|------------------|
-| [postgresql-13](https://catalog.redhat.com/software/containers/rhel8/postgresql-13/5ffdbdef73a65398111b8362) | registry.redhat.io/rhel8/postgresql-13:1-56  |
-| [search-collector](https://github.com/stolostron/search-collector)     | quay.io/stolostron/search-collector:2.7.0-de589fdba4effc06198db8250c1ae3118125d685 |
-| [search-indexer](https://github.com/stolostron/search-indexer)         | quay.io/stolostron/search-indexer:2.7.0-4c1b1f4f692d5f8be9fca699ea26573227250f39   |
-| [search-v2-api](https://github.com/stolostron/search-v2-api)           | quay.io/stolostron/search-v2-api:2.7.0-a434961368307d4fd3ed406ddcaffbfe1c7a88e7       |
-| [search-v2-operator](https://github.com/stolostron/search-v2-operator) | quay.io/stolostron/search-v2-operator:2.7.0-93891c64aec26b9784eb8b5b35a9cf3a5b3acd1b  |
+Details to be added...
 
-### Date of Change: 09-06-2022
+### Environment Variables
 
----
+Each environment variable is customizable and can be set by the user.
 
-#### Updated Build Version: Tue Sep  6 14:32:50 EDT 2022
+| Name                          | Description                                                        | Default Value                                               |
+|-------------------------------|--------------------------------------------------------------------|-------------------------------------------------------------|
+| IMG_REGISTRY                  | Image registry from where the build image will be pulled from      | quay.io/$ORG                                                |
+| IGNORE_API_IMAGE_UPDATE       | Ignore search-v2-api image update                                  | false                                                       |
+| IGNORE_COLLECTOR_IMAGE_UPDATE | Ignore search-collector image update                               | false                                                       |
+| IGNORE_INDEXER_IMAGE_UPDATE   | Ignore search-indexer image update                                 | false                                                       |
+| IGNORE_OPERATOR_IMAGE_UPDATE  | Ignore search-v2-operator image update                             | false                                                       |
+| IGNORE_POSTGRES_IMAGE_UPDATE  | Ignore postgresql-13 image update                                  | true                                                        |
+| OPERATOR_CONTAINER_PATH       | The container path within the search-v2-operator.clusterserviceversion manifest file | .spec.install.spec.deployments[0].spec.template.spec.containers[1] |
+| OPERATOR_CSV_FILEPATH         | The search-v2-operator.clusterserviceversion manifest file path | bundle/manifests/search-v2-operator.clusterserviceversion.yaml |
+| OPERATOR_ENV_PATH             | The container env path within the search-v2-operator.clusterserviceversion manifest file   | OPERATOR_CONTAINER_PATH.env[].value |
+| OPERATOR_IMAGE_PATH           | The container image path within the search-v2-operator.clusterserviceversion manifest file | OPERATOR_CONTAINER_PATH.image       |
+| ORG                           | The org from which the images will be pulled from and where the manifest file will be fetched from | stolostron                  |
+| PIPELINE_REPO                 | The repository that contains the image manifest file                     | pipeline                                              |
+| POSTGRES_IMG_REGISTRY         | The image registry for the postgresql component                          | $IMG_REGISTRY                                         |
+| README_FILEPATH               | The README filepath for where the updated status will be added           | README.md                                             |
+| RELEASE_BRANCH                | The release branch from which the pipeline manifest will be fetched from | 2.7-integration                                       |
+| SEARCH_API_IMG_REGISTRY       | The image registry for the search-v2-api component                       | $IMG_REGISTRY                                         |
+| SEARCH_COLLECTOR_IMG_REGISTRY | The image registry for the search-collector component                    | $IMG_REGISTRY                                         |
+| SEARCH_INDEXER_IMG_REGISTRY   | The image registry for the search-indexer component                      | $IMG_REGISTRY                                         |
+| SEARCH_OPERATOR_IMG_REGISTRY  | The image registry for the search-v2-operator component                  | $IMG_REGISTRY                                         |
 
-| Image Name                                                             | Image Component  |
-|------------------------------------------------------------------------|------------------|
-| [postgresql-13](https://catalog.redhat.com/software/containers/rhel8/postgresql-13/5ffdbdef73a65398111b8362) | registry.redhat.io/rhel8/postgresql-13:1-56  |
-| [search-collector](https://github.com/stolostron/search-collector)     | quay.io/stolostron/search-collector:2.7.0-de589fdba4effc06198db8250c1ae3118125d685 |
-| [search-indexer](https://github.com/stolostron/search-indexer)         | quay.io/stolostron/search-indexer:2.7.0-4c1b1f4f692d5f8be9fca699ea26573227250f39   |
-| [search-v2-api](https://github.com/stolostron/search-v2-api)           | quay.io/stolostron/search-v2-api:2.7.0-39d9479685fc8e28478b668e7650acd4ac79ee08       |
-| [search-v2-operator](https://github.com/stolostron/search-v2-operator) | quay.io/stolostron/search-v2-operator:2.7.0-78b8fed2b848aa05c7cba248b91138c67f6ce31c  |
+## Links
+
+These are a few useful links that will help provide technical reference and best practices when developing for the platform.
+
+- [jq Docs](https://stedolan.github.io/jq/tutorial/)
+- [yq Docs](https://mikefarah.gitbook.io/yq/)
+
+Image Rebuild: Thu Sep 15 13:21:16 EDT 2022

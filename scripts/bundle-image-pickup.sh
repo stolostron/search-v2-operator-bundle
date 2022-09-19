@@ -13,9 +13,15 @@ echo -e "Current dir: $(pwd)\n"
 ## ENV VARIABLES
 ####################
 ORG=${ORG:-"stolostron"}
-IMG_REGISTRY=${IMG_REGISTRY:-"quay.io/$ORG"}
 PIPELINE_REPO=${PIPELINE_REPO:-"pipeline"}
 RELEASE_BRANCH=${RELEASE_BRANCH:-"2.7-integration"}
+
+IMG_REGISTRY=${IMG_REGISTRY:-"quay.io/$ORG"}
+SEARCH_API_IMG_REGISTRY=${SEARCH_API_IMG_REGISTRY:-$IMG_REGISTRY}
+SEARCH_COLLECTOR_IMG_REGISTRY=${SEARCH_COLLECTOR_IMG_REGISTRY:-$IMG_REGISTRY}
+SEARCH_INDEXER_IMG_REGISTRY=${SEARCH_INDEXER_IMG_REGISTRY:-$IMG_REGISTRY}
+SEARCH_OPERATOR_IMG_REGISTRY=${SEARCH_OPERATOR_IMG_REGISTRY:-$IMG_REGISTRY}
+POSTGRES_IMG_REGISTRY=${POSTGRES_IMG_REGISTRY:-$IMG_REGISTRY}
 
 ####################
 ## IGNORE VARIABLES
@@ -30,7 +36,7 @@ IGNORE_POSTGRES_IMAGE_UPDATE=${IGNORE_POSTGRES_IMAGE_UPDATE:-"true"}
 ## PATHS (I.E DIR, FILES, ETC)
 ####################
 OPERATOR_CSV_FILEPATH=${OPERATOR_CSV_FILEPATH:-"bundle/manifests/search-v2-operator.clusterserviceversion.yaml"}
-README_FILEPATH=${README_FILEPATH:-"README.md"}
+CHANGELOG_FILEPATH=${CHANGELOG_FILEPATH:-"CHANGELOG.md"}
 
 OPERATOR_CONTAINER_PATH=${OPERATOR_CONTAINER_PATH:-".spec.install.spec.deployments[0].spec.template.spec.containers[1]"}
 OPERATOR_ENV_PATH=${OPERATOR_ENV_PATH:-"$OPERATOR_CONTAINER_PATH.env[].value"}
@@ -104,21 +110,21 @@ get_images_from_csv () {
 
 update_doc_entry () {
   # Check to see if the current date header is within the bundle-image-update.md file.
-  if ! grep -q $(date +%m-%d-%Y) $README_FILEPATH; then
+  if ! grep -q $(date +%m-%d-%Y) $CHANGELOG_FILEPATH; then
         echo -e "\n### Date of Change: $(date +%m-%d-%Y)\n" \
-    "\n---" >> $README_FILEPATH
+    "\n---" >> $CHANGELOG_FILEPATH
   fi
 
-  echo -e "\n#### Updated Build Version: $(date)" >> $README_FILEPATH
+  echo -e "\n#### Updated Build Version: $(date)" >> $CHANGELOG_FILEPATH
   echo -e "\n| Image Name                                                             | Image Component  |\n" \
       "|------------------------------------------------------------------------|------------------|\n" \
       "| [postgresql-13](https://catalog.redhat.com/software/containers/rhel8/postgresql-13/5ffdbdef73a65398111b8362) | ${POSTGRES_IMAGE}  |\n" \
       "| [search-collector](https://github.com/stolostron/search-collector)     | ${COLLECTOR_IMAGE} |\n" \
       "| [search-indexer](https://github.com/stolostron/search-indexer)         | ${INDEXER_IMAGE}   |\n" \
       "| [search-v2-api](https://github.com/stolostron/search-v2-api)           | ${API_IMAGE}       |\n" \
-      "| [search-v2-operator](https://github.com/stolostron/search-v2-operator) | ${OPERATOR_IMAGE}  |" >> $README_FILEPATH
+      "| [search-v2-operator](https://github.com/stolostron/search-v2-operator) | ${OPERATOR_IMAGE}  |" >> $CHANGELOG_FILEPATH
 
-  sed -i'' 's/^[ \t]*//'  $README_FILEPATH
+  sed -i'.bak' 's/^[ \t]*//'  $CHANGELOG_FILEPATH
 }
 
 update_images_csv () {
@@ -129,7 +135,7 @@ update_images_csv () {
   log_color purple "Preparing to update component: ${COMPONENT} => ${NEW_IMAGE}" "\n"
 
   if [[ $COMPONENT =~ .*"postgresql-13".* ]]; then
-    yq -i e "${OPERATOR_CONTAINER_PATH}.env[1].value = \"${NEW_IMAGE}\"" $OPERATOR_CSV_FILEPATH
+    yq -i e "${OPERATOR_CONTAINER_PATH}.env[0].value = \"${NEW_IMAGE}\"" $OPERATOR_CSV_FILEPATH
   
   elif [[ $COMPONENT =~ .*"search-indexer".* ]]; then
     yq -i e "${OPERATOR_CONTAINER_PATH}.env[1].value = \"${NEW_IMAGE}\"" $OPERATOR_CSV_FILEPATH
@@ -155,12 +161,12 @@ fi
 get_images_from_csv
 
 # Set the default snapshot version.
-if [ -f ./snapshot.ver ]; then
+if [[ -f ./snapshot.ver && -f ./pg-snapshot.ver ]]; then
   DEFAULT_SNAPSHOT=`cat ./snapshot.ver`
   DEFAULT_POSTGRESQL_SNAPSHOT=`cat ./pg-snapshot.ver`
 
 elif [[ " $@ " =~ " --silent " || " $@ " =~ " -s " ]]; then
-  log_color "red" "ERROR: Silent mode will not work when ./snapshot.ver is missing"
+  log_color "red" "ERROR: Silent mode will not work when ./snapshot.ver or ./pg-snapshot.ver is missing"
   exit 1
 fi
 
