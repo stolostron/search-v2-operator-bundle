@@ -207,17 +207,17 @@ spec:
                     resources:
                       limits:
                         cpu: 200m
-                        memory: 100Mi
+                        memory: 200Mi
                       requests:
                         cpu: 100m
-                        memory: 50Mi
+                        memory: 100Mi
                   - args:
                       - --health-probe-bind-address=:8081
                       - --metrics-bind-address=127.0.0.1:8080
                       - --leader-elect
                     command:
                       - /manager
-                    image: quay.io/stolostron/search-v2-operator:2.7.0-8634c0e2ea687ce48da2a4494b71797edd662738
+                    image: quay.io/stolostron/search-v2-operator:2.7.0-SNAPSHOT-2022-09-27-18-43-55
                     livenessProbe:
                       httpGet:
                         path: /healthz
@@ -229,11 +229,11 @@ spec:
                       - name: POSTGRES_IMAGE
                         value: registry.redhat.io/rhel8/postgresql-13@sha256:d8ec037e60575b86320fdc162117600240ce53038fb8b9b7296ce525d2b8e605
                       - name: INDEXER_IMAGE
-                        value: quay.io/stolostron/search-indexer:2.7.0-9d6779a859e0935afdabea4ae363bc0277e6b01d
+                        value: quay.io/stolostron/search-indexer:2.7.0-SNAPSHOT-2022-09-27-18-43-55
                       - name: COLLECTOR_IMAGE
-                        value: quay.io/stolostron/search-collector:2.7.0-4f4c8f5770b14b31d16384abb1f5601e0018eb9f
+                        value: quay.io/stolostron/search-collector:2.7.0-SNAPSHOT-2022-09-27-18-43-55
                       - name: API_IMAGE
-                        value: quay.io/stolostron/search-v2-api:2.7.0-7131a1a4707f70a1cf8299177d2ea7a3bc41afee
+                        value: quay.io/stolostron/search-v2-api:2.7.0-SNAPSHOT-2022-09-27-18-43-55
                     readinessProbe:
                       httpGet:
                         path: /readyz
@@ -243,10 +243,10 @@ spec:
                     resources:
                       limits:
                         cpu: 200m
-                        memory: 200Mi
+                        memory: 400Mi
                       requests:
                         cpu: 50m
-                        memory: 50Mi
+                        memory: 100Mi
                     securityContext:
                       allowPrivilegeEscalation: false
                 imagePullPolicy: Always
