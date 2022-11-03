@@ -216,11 +216,11 @@ spec:
                       - name: POSTGRES_IMAGE
                         value: quay.io/stolostron/search-indexer:2.7.0-SNAPSHOT-2022-11-03-17-37-17
                       - name: INDEXER_IMAGE
-                        value: quay.io/stolostron/search-collector:2.7.0-SNAPSHOT-2022-11-03-17-37-17
+                        value: quay.io/stolostron/search-indexer:2.7.0-SNAPSHOT-2022-11-03-17-37-17
                       - name: COLLECTOR_IMAGE
-                        value: quay.io/stolostron/search-v2-api:2.7.0-SNAPSHOT-2022-11-03-17-37-17
+                        value: quay.io/stolostron/search-collector:2.7.0-SNAPSHOT-2022-11-03-17-37-17
                       - name: API_IMAGE
-                        value: quay.io/stolostron/search-v2-api:2.7.0-fb6729cbd08de79fc0766ba47d82565ebbfd6f2a
+                        value: quay.io/stolostron/search-v2-api:2.7.0-SNAPSHOT-2022-11-03-17-37-17
                     readinessProbe:
                       httpGet:
                         path: /readyz
