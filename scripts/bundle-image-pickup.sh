@@ -134,17 +134,17 @@ update_images_csv () {
 
   log_color purple "Preparing to update component: ${COMPONENT} => ${NEW_IMAGE}" "\n"
 
-  if [[ $COMPONENT =~ .*"postgresql-13".* ]]; then
-    yq -i e "${OPERATOR_CONTAINER_PATH}.env[0].value = \"${NEW_IMAGE}\"" $OPERATOR_CSV_FILEPATH
+   if [[ $COMPONENT =~ .*"postgresql-13".* ]]; then
+    yq -i e "${OPERATOR_CONTAINER_PATH}.env[1].value = \"${NEW_IMAGE}\"" $OPERATOR_CSV_FILEPATH
   
   elif [[ $COMPONENT =~ .*"search-indexer".* ]]; then
-    yq -i e "${OPERATOR_CONTAINER_PATH}.env[1].value = \"${NEW_IMAGE}\"" $OPERATOR_CSV_FILEPATH
+    yq -i e "${OPERATOR_CONTAINER_PATH}.env[2].value = \"${NEW_IMAGE}\"" $OPERATOR_CSV_FILEPATH
 
   elif [[ $COMPONENT =~ .*"search-collector".* ]]; then
-    yq -i e "${OPERATOR_CONTAINER_PATH}.env[2].value = \"${NEW_IMAGE}\"" $OPERATOR_CSV_FILEPATH
+    yq -i e "${OPERATOR_CONTAINER_PATH}.env[3].value = \"${NEW_IMAGE}\"" $OPERATOR_CSV_FILEPATH
   
   elif [[ $COMPONENT =~ .*"search-v2-api".* ]]; then
-    yq -i e "${OPERATOR_CONTAINER_PATH}.env[3].value = \"${NEW_IMAGE}\"" $OPERATOR_CSV_FILEPATH
+    yq -i e "${OPERATOR_CONTAINER_PATH}.env[4].value = \"${NEW_IMAGE}\"" $OPERATOR_CSV_FILEPATH
 
   elif [[ $COMPONENT =~ .*"search-v2-operator".* && $IGNORE_POSTGRES_IMAGE_UPDATE == true ]]; then
     yq -i e "${OPERATOR_IMAGE_PATH} = \"${NEW_IMAGE}\"" $OPERATOR_CSV_FILEPATH
