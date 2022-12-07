@@ -152,7 +152,7 @@ update_images_csv () {
 }
 
 # To run in silent mode the user's GITHUB_TOKEN will need to be exported. This is needed to fetch the pipeline manifest.json file from the stolostron org.
-if [[ " $@ " =~ " --silent " || " $@ " =~ " -s " && -z $GITHUB_TOKEN ]]; then
+if [[ " $@ " =~ " --silent " && -z $GITHUB_TOKEN || " $@ " =~ " -s " && -z $GITHUB_TOKEN ]]; then
   log_color "yellow" "\"GITHUB_TOKEN\" is not exported; (\"GITHUB_TOKEN\" is required to execute the script in silent mode)" 
   exit 1
 fi
