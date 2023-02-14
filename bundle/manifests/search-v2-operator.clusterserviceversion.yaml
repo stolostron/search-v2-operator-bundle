@@ -131,6 +131,7 @@ spec:
                 - addon.open-cluster-management.io
               resources:
                 - managedclusteraddons
+                - addondeploymentconfigs
                 - clustermanagementaddons
                 - managedclusteraddons/finalizers
                 - clustermanagementaddons/finalizers
@@ -260,6 +261,7 @@ spec:
                 - serviceaccounts
                 - services
                 - persistentvolumeclaims
+                - pods
               verbs:
                 - '*'
             - apiGroups:
