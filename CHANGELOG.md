@@ -299,3 +299,17 @@ All notable changes to this project will be documented in this file.
 | [search-indexer](https://github.com/stolostron/search-indexer)         | quay.io/stolostron/search-indexer:2.7.0-16488d7044ad8538e9c56891fcece74cc5fc2556   |
 | [search-v2-api](https://github.com/stolostron/search-v2-api)           | quay.io/stolostron/search-v2-api:2.7.0-aa72ce88da2d639db48daa3e341a0094fd32da19       |
 | [search-v2-operator](https://github.com/stolostron/search-v2-operator) | quay.io/stolostron/search-v2-operator:2.7.0-8df23cefcfcbaaa7a30bbd5c18fdde86e080f9c0  |
+
+### Date of Change: 02-13-2023
+
+---
+
+#### Updated Build Version: Mon Feb 13 15:56:19 EST 2023
+
+| Image Name                                                             | Image Component  |
+|------------------------------------------------------------------------|------------------|
+| [postgresql-13](https://catalog.redhat.com/software/containers/rhel8/postgresql-13/5ffdbdef73a65398111b8362) | registry.redhat.io/rhel8/postgresql-13@sha256:d8ec037e60575b86320fdc162117600240ce53038fb8b9b7296ce525d2b8e605  |
+| [search-collector](https://github.com/stolostron/search-collector)     | quay.io/stolostron/search-collector:2.7.0-b0ca6df88cb912343874456999106074d6d11327 |
+| [search-indexer](https://github.com/stolostron/search-indexer)         | quay.io/stolostron/search-indexer:2.7.1-acd68afcc7360780011ea808afb7b46e29fe749e   |
+| [search-v2-api](https://github.com/stolostron/search-v2-api)           | quay.io/stolostron/search-v2-api:2.7.1-b89aa4e48cb110afcd7a2ee44d885d086eff9ac1       |
+| [search-v2-operator](https://github.com/stolostron/search-v2-operator) | quay.io/stolostron/search-v2-operator:2.7.1-b0a20448db4752dcc291f6440f0c6099d4c24aa1  |
