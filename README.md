@@ -1,3 +1,7 @@
+# This project is deprecated.
+- Please see: https://github.com/stolostron/search-v2-operator
+- The last RHACM release using this project is RHACM 2.8
+
 # Search Operator Bundle
 
 Bundles the latest Odyssey (OCM Search v2) components.
